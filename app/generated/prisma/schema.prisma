@@ -29,6 +29,7 @@ model User {
   name      String
   email     String   @unique
   password  String
+  token     String? // JWT token for user session (optional, not required for login logic)
   books     Book[]   @relation("UserBooks")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
