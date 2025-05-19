@@ -50,12 +50,11 @@ export const POST = async (request: NextResponse) => {
 			}
 		);
 
-		// Set token as HTTP-only cookie
 		const response = NextResponse.json({ message: "Login successful" });
 		response.cookies.set("token", token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			maxAge: 60 * 60 * 24 * 7, // 7 days
+			maxAge: 60 * 60 * 24 * 7,
 			path: "/",
 		});
 		return response;

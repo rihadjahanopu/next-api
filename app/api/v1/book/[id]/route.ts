@@ -2,7 +2,7 @@ import prisma from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { bookSchema } from "../../../../validation/book.schema";
 
-// GET: Get a book by id
+
 export async function GET(
 	request: NextRequest,
 	{ params }: { params: { id: string } }
@@ -13,7 +13,7 @@ export async function GET(
 		if (!book) {
 			return NextResponse.json({ error: "Book not found" }, { status: 404 });
 		}
-		// Fetch author details using book.author or book.authorId
+
 		const authorIdValue =
 			(book as { authorId?: string; author?: string }).authorId ||
 			(book as { author?: string }).author;
@@ -30,7 +30,7 @@ export async function GET(
 	}
 }
 
-// PUT: Update a book by id
+
 export async function PUT(
 	request: NextRequest,
 	{ params }: { params: { id: string } }
@@ -77,7 +77,7 @@ export async function PUT(
 	}
 }
 
-// DELETE: Delete a book by id
+
 export async function DELETE(
 	request: NextRequest,
 	{ params }: { params: { id: string } }

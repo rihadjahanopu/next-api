@@ -1,5 +1,3 @@
-// lib/prisma.js
-
 import { PrismaClient } from "../generated/prisma";
 
 const globalForPrisma = globalThis as typeof globalThis & {

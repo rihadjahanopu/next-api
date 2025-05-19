@@ -1,4 +1,3 @@
-// zod Validation schema for book
 import { z } from "zod";
 
 export const bookPublishedSchema = z.coerce

@@ -2,7 +2,6 @@ import prisma from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { bookSchema } from "../../../validation/book.schema";
 
-// GET: Fetch all books with or without pagination, sorting, and total count
 export async function GET(request: NextRequest) {
 	try {
 		const { searchParams } = new URL(request.url);
@@ -87,7 +86,6 @@ export async function GET(request: NextRequest) {
 	}
 }
 
-// POST: Create a new book
 export async function POST(request: NextRequest) {
 	try {
 		const body = await request.json();

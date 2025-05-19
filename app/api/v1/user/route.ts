@@ -4,13 +4,11 @@ import bcrypt from "bcrypt";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
-// Define a type for JWT payload
 export type JwtPayload = {
 	userId: string;
 	email: string;
 };
 
-// POST: Create a new user
 export async function POST(request: NextRequest) {
 	try {
 		const body = await request.json();
@@ -28,7 +26,6 @@ export async function POST(request: NextRequest) {
 			data: { name, email, password: hashedPassword },
 		});
 
-		// Generate JWT token
 		const token = jwt.sign(
 			{ userId: user.id, email: user.email } as JwtPayload,
 			process.env.JWT_SECRET!,
@@ -39,25 +36,10 @@ export async function POST(request: NextRequest) {
 			} as SignOptions
 		);
 
-		// Save token to user in database
 		await prisma.user.update({
 			where: { id: user.id },
 			data: { token },
 		});
-
-		// // Remove password from response
-		// const { password: _removed, ...userWithoutPassword } = user;
-		// // Set token as HTTP-only cookie
-		// const response = NextResponse.json({ data: userWithoutPassword });
-		// response.cookies.set("token", token, {
-		// 	httpOnly: true,
-		// 	secure: process.env.NODE_ENV === "production",
-		// 	maxAge: 60 * 60 * 24 * 7, // 7 days
-		// 	path: "/",
-		// });
-		// return response;
-
-		//  nextjs cookie seutup
 
 		const response = NextResponse.json({ data: user });
 		response.cookies.set("token", token, {
@@ -78,7 +60,6 @@ export async function POST(request: NextRequest) {
 	}
 }
 
-// GET: Fetch all users
 export async function GET() {
 	try {
 		const users = await prisma.user.findMany();

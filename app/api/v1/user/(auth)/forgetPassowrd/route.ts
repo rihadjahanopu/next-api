@@ -3,9 +3,7 @@ import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-// Helper to send email
 async function sendResetEmail(email: string, newPassword: string) {
-	// Configure your SMTP transport (use environment variables in production)
 	const transporter = nodemailer.createTransport({
 		host: process.env.SMTP_HOST || "smtp.example.com",
 		port: Number(process.env.SMTP_PORT) || 587,
