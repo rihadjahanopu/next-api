@@ -116,7 +116,7 @@ Prisma.NullTypes = {
 exports.Prisma.BookScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  author: 'author',
+  authorId: 'authorId',
   published: 'published',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -13,7 +13,15 @@ export async function GET(
 		if (!book) {
 			return NextResponse.json({ error: "Book not found" }, { status: 404 });
 		}
-		return NextResponse.json(book);
+		// Fetch author details using book.author or book.authorId
+		const authorIdValue =
+			(book as { authorId?: string; author?: string }).authorId ||
+			(book as { author?: string }).author;
+		let author = null;
+		if (authorIdValue) {
+			author = await prisma.user.findUnique({ where: { id: authorIdValue } });
+		}
+		return NextResponse.json({ ...book, author });
 	} catch {
 		return NextResponse.json(
 			{ error: "Failed to fetch book" },
@@ -37,10 +45,10 @@ export async function PUT(
 				{ status: 400 }
 			);
 		}
-		const { title, author, published } = body;
-		const data: { title: string; author: string; published?: Date } = {
+		const { title, authorId, published } = body;
+		const data: { title: string; authorId: string; published?: Date } = {
 			title,
-			author,
+			authorId,
 		};
 		if (published) {
 			const date = new Date(published);
@@ -53,7 +61,14 @@ export async function PUT(
 			data.published = date;
 		}
 		const updatedBook = await prisma.book.update({ where: { id }, data });
-		return NextResponse.json(updatedBook);
+		const authorIdValue =
+			(updatedBook as { authorId?: string; author?: string }).authorId ||
+			(updatedBook as { author?: string }).author;
+		let author = null;
+		if (authorIdValue) {
+			author = await prisma.user.findUnique({ where: { id: authorIdValue } });
+		}
+		return NextResponse.json({ ...updatedBook, author });
 	} catch {
 		return NextResponse.json(
 			{ error: "Failed to update book" },
